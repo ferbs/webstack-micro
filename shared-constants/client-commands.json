@@ -1,0 +1,14 @@
+{
+  "AiSort": {
+    "UpdateList": "Silly:UpdateList",
+    "ShowError": "Silly:ShowError"
+  },
+  "Slidecast": {
+    "ShowSlide": "Slidecast:ShowSlide",
+    "End": "Slidecast:End",
+    "ShowError": "Slidecast:ShowError"
+  },
+  "RootState": {
+    "Assign": "RootState:Assign"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "PubSubChannel": {
+    "BackgroundPush": "BackgroundPush",
+    "AuthEvent": "AuthEvent"
+  },
+  "NamespacePrefix": {
+    "SillyApp": "silly",
+    "Slidecast": "slides"
+  }
+}

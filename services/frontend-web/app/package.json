@@ -1,0 +1,48 @@
+{
+  "name": "frontend-web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.3.3",
+    "@material-ui/icons": "^4.4.1",
+    "@material-ui/styles": "^4.3.3",
+    "@reach/router": "^1.2.1",
+    "backoff": "^2.5.0",
+    "clsx": "^1.0.4",
+    "fs-extra": "^8.1.0",
+    "lodash": "^4.17.15",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-hook-form": "^3.22.2",
+    "react-markdown": "^4.2.2",
+    "react-scripts": "^3.1.1",
+    "typeface-roboto": "^0.0.75"
+  },
+  "scripts": {
+    "dev": "npm run copy:shared && PORT=8080 HOST=0.0.0.0 REACT_APP_SERVER_HOST=${WEBSTACK_HOST} REACT_APP_WEBSOCKET_HOST=${WEBSOCKET_WEBSTACK_HOST} BROWSER=none react-scripts start",
+    "build": "npm run copy:shared && npm run build:react && npm run build:after",
+    "build:react": "REACT_APP_SERVER_HOST=${WEBSTACK_HOST} REACT_APP_WEBSOCKET_WEBSTACK_HOST=${WEBSOCKET_WEBSTACK_HOST} react-scripts build",
+    "build:after": "./bin/prepare-public-dist.sh",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "copy:shared": "./bin/copy-shared-constants.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "create-react-app": "^3.1.1"
+  }
+}

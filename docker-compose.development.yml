@@ -1,0 +1,82 @@
+version: '3.7'
+
+
+x-node-yarn-cache-volume: &nodejs-yarn-cache-volume ./mounted-volumes/yarn_cache:/usr/local/yarn_cache:cached
+# the above ":cached" sets the consistency setting on the volume. It is ignored except on macOs hosts. When set to "cached", the host is authoritati~ve. (Use "delegated" for containers running a database.)
+
+x-node-service: &nodejs
+  build:
+    target: development
+  environment:
+    - YARN_CACHE_FOLDER=/usr/local/yarn_cache
+    - NODE_ENV=development
+    - WEBSTACK_PROTOCOL
+  stop_grace_period: 2s
+  command: [ "yarn", "dev" ]
+
+
+x-multi-service-dev-backend: &multi-service-dev-backend
+  build:
+    target: development
+  volumes:
+    - ./services/backend-api/app:/backend-api:cached
+  environment:
+    - RUBY_ENV=development
+  stop_grace_period: 2s
+
+
+services:
+  traefik-gateway:
+    command: # Enables the web UI and tells Traefik to listen to docker
+      - "--configfile=/etc/traefik/traefik.toml"
+      - "--api"
+      - "--docker.domain=docker.localhost" # todo: remove from toml
+      - "--logLevel=INFO" # or INFO
+      - "--docker.watch=true"
+    stop_grace_period: 2s
+
+
+  frontend-web:
+    <<: *nodejs
+    volumes:
+      - *nodejs-yarn-cache-volume
+      - ./services/frontend-web/app:/frontend-web:cached
+    command: [ "yarn", "dev" ]
+
+
+  backend-api:
+    <<: *multi-service-dev-backend
+
+
+  background-worker:
+    <<: *multi-service-dev-backend
+
+
+  passportjs-auth:
+    <<: *nodejs
+    # note: when working on this service, override the command to use nodemon (to watch for file changes) using:
+#    command: [ "yarn", "dev" ]
+    volumes:
+      - *nodejs-yarn-cache-volume
+      - ./services/passportjs-auth/app:/passportjs-auth:cached
+
+
+  websocket-push:
+    <<: *nodejs
+    # note: uncomment command to use with nodemon in dev mode::
+#    command: [ "yarn", "dev" ]
+    volumes:
+      - *nodejs-yarn-cache-volume
+      - ./services/websocket-push/app:/websocket-push:cached
+
+
+  redis-main:
+    stop_grace_period: 6s
+
+
+  postgres-main:
+    stop_grace_period: 6s
+
+
+  rabbitmq-broker:
+    stop_grace_period: 6s

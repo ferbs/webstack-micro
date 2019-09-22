@@ -1,0 +1,30 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# production
+/build
+/dist
+
+# create-react-app won't import files outside of src, so a script copies /usr/local/shared-constants into src dir
+shared-constants.generated
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+
+# misc
+.env
+.config
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.npm 
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store

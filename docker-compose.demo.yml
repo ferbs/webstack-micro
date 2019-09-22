@@ -1,0 +1,25 @@
+version: '3.7'
+
+
+# TODO: setup internal network
+# TODO: let's encrypt
+
+services:
+
+  traefik-gateway:
+    ports: [ "80:80", "443:443" ]
+
+  passportjs-auth:
+    command: [ "yarn", "start" ]
+
+  frontend-web:
+    build:
+      context: ./services/frontend-web
+      target: release
+    command: [ "nginx", "-g", "daemon off;" ]
+
+
+  backend-api:
+    environment:
+      - RUBY_ENV=production
+

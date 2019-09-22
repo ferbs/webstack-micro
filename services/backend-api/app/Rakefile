@@ -1,0 +1,12 @@
+namespace :test do
+
+  desc "Controller tests"
+  task :controllers do
+    ruby "test/routes/*_test.rb"
+  end
+
+  task :all => [:controllers]
+end
+
+desc "All tests"
+task :test => 'test:all'

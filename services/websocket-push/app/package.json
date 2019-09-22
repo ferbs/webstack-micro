@@ -1,0 +1,17 @@
+{
+  "name": "websocket-push",
+  "description": "service for pushing messages to the browser over websocket/socket.io",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node ./lib/websocket-push-server.js",
+    "dev": "nodemon ./lib/websocket-push-server.js",
+    "test": "echo TODO: test && exit 1"
+  },
+  "main": "./lib/websocket-push-server.js",
+  "license": "MIT",
+  "dependencies": {
+    "nodemon": "^1.19.1",
+    "redis": "^2.8.0",
+    "ws": "^7.1.2"
+  }
+}

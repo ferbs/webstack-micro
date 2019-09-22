@@ -1,0 +1,17 @@
+defaultEntryPoints = ["http", "https" ] # "ws", "wss" 
+
+# todo: move watch and logLevel to docker-compose env-specific file?
+#logLevel = "INFO" # DEBUG, INFO, WARN, ERROR
+
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+exposedbydefault = false

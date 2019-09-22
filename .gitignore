@@ -1,0 +1,16 @@
+/.env
+/mounted-volumes/*
+!/mounted-volumes/yarn_cache/.gitkeep
+
+.bundle
+.gem*
+gem_bundle/
+.bash*
+.next*
+.yarn*
+.npm*
+
+.idea
+node_modules
+*.tmp*
+*.log
