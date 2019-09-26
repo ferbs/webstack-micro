@@ -1,8 +1,6 @@
 version: '3.7'
 
-
-x-node-yarn-cache-volume: &nodejs-yarn-cache-volume ./mounted-volumes/yarn_cache:/usr/local/yarn_cache:cached
-# the above ":cached" sets the consistency setting on the volume. It is ignored except on macOs hosts. When set to "cached", the host is authoritati~ve. (Use "delegated" for containers running a database.)
+x-node-yarn-cache-volume: &nodejs-yarn-cache-volume ./mounted-volumes/yarn_cache:/usr/local/yarn_cache:delegated
 
 x-node-service: &nodejs
   build:
