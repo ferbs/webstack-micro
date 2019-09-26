@@ -1,7 +1,7 @@
 # webstack-micro
 
 This repository is a starter/boilerplate web app intended for teams of under ~ 20 developers who want to pluck the main advantages
- of a microservices architecture for their project while trying to minimize extra complexity and overhead it brings. Webstack-micro
+ of a microservices architecture for their project while trying to minimize its extra complexity and overhead. Webstack-micro
  is monolithic-friendly, you can use it with an existing web app built in Django/Laravel/Nest/Rails/etc. 
  
 
@@ -63,8 +63,8 @@ To make it easy to find example uses or to entirely replace a service, each uses
  
 ### Experimental Status! 
 
-This repo is an experimental side project. Most is untested and it has never been used in production. I decided to share this first 
- iteration because teams might find it useful to look at as an example, even in its draft present state. 
+This repo is an experimental side project. Most is untested and it has never been used in production. I decided to share this 
+ early draft because teams might still find it useful to look at as an example.  
 
 I'll put more time into it if other people end up contributing. If so, we might publish the general/reusable services as 
  versioned, maintained containers. 
@@ -79,7 +79,8 @@ The example is NOT my ideal tech stack. I just tried to pick popular libraries t
 You'll almost certainly want to remove or replace *frontend-web*, *backend-api*, and *background-worker*. Portions are worth 
  examining first--mainly how each service interacts with the others. Each README mentions what's worth a look.       
 
-If you think your Dockerfile or setup is something others might also like, consider sharing your notes as a guide in this repository.   
+If you think your Dockerfile or setup is something others might also like, consider sharing your notes as [a guide](./guides/adding-a-guide) 
+ in this repository.   
   
 
 ## Development Mode
@@ -94,38 +95,39 @@ If you think your Dockerfile or setup is something others might also like, consi
 
       cp env.development.example .env 
 
-  * **note:** if you plan on using Postgres in your project, make sure you set the postgres-related vars now. (Its Docker
+  * **note:** if you plan on using Postgres in your project, make sure you set the postgres-related vars **now**. (Its Docker
      build script creates a database and user based on their values.)  
       
 * Ensure [Docker](https://docs.docker.com/) permissions are ok:
-  * If not already installed: [download](https://download.docker.com/)    
+  * and of course, [download and install](https://download.docker.com/) Docker if you haven't already     
   * Ensure its File Sharing setting grants containers permission to access either this entire repository, or `./mounted-volumes` and `./shared-constants` 
 
 * Run the initialization script: `bin/init-dev-system.sh`
   * the script builds the Docker containers, installs dev-mode dependencies (eg, yarn install), and ensures expected data directories exist   
   * the first run is slow...... (took ~ 6 minutes on an old MacBook Pro) 
 
-* Set up your base domain
+* Set up your localhost base domain
   * It's best to add a couple base domains to `/etc/hosts`:
       
         sudo echo 127.0.0.1 webstack.loc >> /etc/hosts
         sudo echo 127.0.0.1 ws.webstack.loc >> /etc/hosts
     
   * You can replace "webstack.loc" here and in the .env shell variables, but the READMEs refer to it as "webstack.loc"         
-  * If you do not have permission to /etc/hosts, you can use another domain that points back to localhost 127.0.0.1 like: `lvh.me`      
-  * Needed because navigating to your site using "http://localhost" or "http://127.0.0.1" confounds open id login, session cookies, and ssl on localhost 
+  * If you do not have permission to /etc/hosts, you can use another domain that points back to localhost 127.0.0.1 like: *lvh.me*      
+  * note: needed because navigating to your site using "http://localhost" or "http://127.0.0.1" confounds open id login, session cookies, and ssl on localhost 
 
 * Give it a try 
-  * Create a local dev-mode account: `bin/dev.sh run passportjs-auth bin/create-dev-user.js dev@email.loc secret! Some Name`                                         
-  * Start the servers:: `bin/dev.sh up` 
+  * Create a local dev-mode account for login: `bin/dev.sh run passportjs-auth bin/create-dev-user.js dev@email.loc secret! Some Name`                                         
+  * Start the servers: `bin/dev.sh up` 
   * Visit `http://webstack.loc`
-  * See additional tips and instructions in each service's README file.  
+  
+* Take a look at the tips and instructions in each service's README file.  
  
 
 ### Docker Cheat Sheet
 
-The `bin/dev.sh` script is a very short shell script--it is just a passthrough to the official docker-compose binary, setting
- the "-f" options for you to `docker-compose.common.yml` and `docker-compose.development.yml`. 
+The `bin/dev.sh` script is a very short shell script--it is just a passthrough to the official Docker Compose binary, setting
+ the "-f" options for you, telling it to run with the settings defined in both `docker-compose.common.yml` and `docker-compose.development.yml`. 
    
 
 * start your project: 
@@ -147,22 +149,26 @@ The `bin/dev.sh` script is a very short shell script--it is just a passthrough t
 
       docker stop $(docker ps -q)
 
-* find and start bash shell on an already-running container. Eg, to connect to running sinatra-api:
+* find and start bash shell on an already-running container. Eg, to connect to running backend-api:
 
       docker exec -it `docker ps --filter name=backend -q` bash
 
-  * note: the non-local containers may not have bash installed (like *postgres-main*); use `sh` instead of `bash` for these
-  * note: if more than one is running, run `docker ps`, select the *image id* desired, and then run *exec* on it, eg: `docker exec -it abc123dd sh` 
+    * note: the non-local containers may not have bash installed (like *postgres-main*); use `sh` instead of `bash` for these
+    * note: if more than one is running, run `docker ps`, select the *image id* desired, eg: `docker exec -it abc123dd sh` 
 
 * restart a single container:
 
       bin/dev.sh restart passportjs-auth 
-       
-* run a specific container and its dependencies instead of the entire project. (You need the *--service-ports* switch.) Eg:
+
+    * note: this won't pick up changes made to the Docker Compose config since running *up*.
+        
+* run a specific container and its dependencies instead of the entire project:
       
       bin/dev.sh run --service-ports backend-api 
-      
-* Show memory and CPU usage of all containers running: 
+
+    * note: You need the *--service-ports* switch 
+           
+* Show memory and CPU usage for running containers: 
 
       docker stats 
 
