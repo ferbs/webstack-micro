@@ -15,7 +15,7 @@ const EnvVars = {
 
 const OpenIdConnectHrefByProvider = {
   // facebook: '/auth/connect/facebook',
-  github: '/auth/connect/github',
+  // github: '/auth/connect/github',
   // google: '/auth/connect/google',
 };
 
