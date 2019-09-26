@@ -11,7 +11,7 @@ export default function buildExpressSessionMiddleware(config: Config): RequestHa
   if (!store) {
     const RedisStore = connectRedisSession(session);
     store = new RedisStore(Object.assign({
-        prefix: `${RedisSessionStorePrefix}`,
+        prefix: `${RedisSessionStorePrefix}:`,
       },
       config.redisClient ? {client: config.redisClient} : config.RedisConfig));
   }
