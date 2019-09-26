@@ -42,27 +42,29 @@ Webstack-micro uses [Docker Compose](https://docs.docker.com/compose/) to assemb
  as a background worker. The example separates out the front end source into its own service (*frontend-web*) that runs a 
  Webpack-based toolchain in dev mode and an Nginx static file server in production mode. (Or you can use a CDN.)   
 
-* **websocket-push** is responsible for browser WebSocket connections. Other services pass it messages over Redis pub-sub, 
+* **services/websocket-push** is responsible for browser WebSocket connections. Other services pass it messages over Redis pub-sub, 
  specifying if the message should be sent to clients that subscribed to a room, to a single tab window, or to all tabs open for a user. 
     
 * **services/redis-main** is a Redis container used by *passportjs-auth* for holding session state and for pub-sub communication between
  services. The example web app also uses Redis as a placeholder for model-layer persistence (intended to be discarded.) **services/postgres-main** 
  is set up for you but is not used in the example. 
     
-* **rabbitmq-broker** is a RabbitMQ server used in the example for enqueuing background jobs. It could also be used for reliable 
+* **services/rabbitmq-broker** is a RabbitMQ server used in the example for enqueuing background jobs. It could also be used for reliable 
  service-to-service communication, pub-sub, and other messaging-related functionality. RabbitMQ is popular but is also relatively 
  heavy--you can remove the service if it's not appropriate to your project.    
     
-Each uses a name that is two words long and is unique to this repository, such that you can find occurrences with a regular expression like: `/backend[_-]?api/i` 
- to match BackendApi, backend-api, etc.
+
+To make it easy to find example uses or to entirely replace a service, each uses a name that is two words long and is unique 
+ to this repository, such that you can find occurrences. A regular expression like: `/backend[_-]?api/i` would match BackendApi, 
+ backend-api, etc, and find all of its uses. 
 
 **Each service above has its own README with instructions and suggestions.**    
  
  
-### Experimental Status 
+### Experimental Status! 
 
 This repo is an experimental side project. Most is untested and it has never been used in production. I decided to share this first 
- iteration because I haven't yet found anything better and it is still useful in its present state as an example. 
+ iteration because teams might find it useful to look at as an example, even in its draft present state. 
 
 I'll put more time into it if other people end up contributing. If so, we might publish the general/reusable services as 
  versioned, maintained containers. 
@@ -70,9 +72,9 @@ I'll put more time into it if other people end up contributing. If so, we might 
   
 ### Example app
 
-The example app provided includes a background-push demo and (mostly for fun) a realtime slidecast demo. 
+The example demonstrates using background-push and (mostly for fun) a realtime slidecast. 
 
-It is NOT my ideal tech stack. I just tried to pick popular libraries that also have a light footprint. 
+The example is NOT my ideal tech stack. I just tried to pick popular libraries that also have a light footprint. 
 
 You'll almost certainly want to remove or replace *frontend-web*, *backend-api*, and *background-worker*. Portions are worth 
  examining first--mainly how each service interacts with the others. Each README mentions what's worth a look.       
@@ -85,7 +87,7 @@ If you think your Dockerfile or setup is something others might also like, consi
 ### Install
 
 * Download this repository
-  * you can rename the top/root directory from webpack-icro to your project name
+  * you can rename the top/root directory from webpack-micro to your project name
   * if you used git clone, you'll probably want to remove `.git` and start your own `git init .`  
 
 * Set up environment variables
@@ -100,7 +102,7 @@ If you think your Dockerfile or setup is something others might also like, consi
   * Ensure its File Sharing setting grants containers permission to access either this entire repository, or `./mounted-volumes` and `./shared-constants` 
 
 * Run the initialization script: `bin/init-dev-system.sh`
-  * it builds the Docker containers, installs dev-mode dependencies (eg, yarn install), and ensures expected data directories exist   
+  * the script builds the Docker containers, installs dev-mode dependencies (eg, yarn install), and ensures expected data directories exist   
   * the first run is slow...... (took ~ 6 minutes on an old MacBook Pro) 
 
 * Set up your base domain
@@ -111,7 +113,7 @@ If you think your Dockerfile or setup is something others might also like, consi
     
   * You can replace "webstack.loc" here and in the .env shell variables, but the READMEs refer to it as "webstack.loc"         
   * If you do not have permission to /etc/hosts, you can use another domain that points back to localhost 127.0.0.1 like: `lvh.me`      
-  * Because navigating to your site using "http://localhost" or "http://127.0.0.1" confounds open id login, session cookies, and ssl on localhost 
+  * Needed because navigating to your site using "http://localhost" or "http://127.0.0.1" confounds open id login, session cookies, and ssl on localhost 
 
 * Give it a try 
   * Create a local dev-mode account: `bin/dev.sh run passportjs-auth bin/create-dev-user.js dev@email.loc secret! Some Name`                                         
@@ -171,14 +173,14 @@ First, the development environment is not at all secure, don't deploy it to even
  accept trusted requests (where you can include the service's port to reach it directly), bypassing authentication and all 
  routing/networking restrictions--convenient for troubleshooting in dev mode but fantastically insecure. 
 
-The setup for demo mode secures the outer perimeter, where all requests go through *traefik-gateway* and authentication. However, 
- it permits internal services to directly contact other internal services on the inner network. Should one service be compromised, the bad guys 
- would be able to make requests disguised as an authenticated user, connect to databases, etc.   
+The setup for demo mode secures the outer perimeter, where all requests go through *traefik-gateway*. However, 
+ it permits internal services to directly contact other internal services on the inner network. Should one service be compromised, 
+ the bad guys would be able to make requests disguised as an authenticated user, connect to databases, etc.   
  
 To further harden your app:
 
 * Consider adding access controls as an additional layer of security. 
-    * You might require all communication between services go through RabbitMQ and use its access control functionality to 
+    * You might require all communication between services go through RabbitMQ, using its access control functionality to 
        restrict services to a whitelist of topics/queues  
     * You might set granular authorization restrictions on requests sent between services using JWT tokens (or with some other cryptographic signature)
      
@@ -187,5 +189,5 @@ To further harden your app:
 * Consider manging your keys/passwords/secrets with a purpose-built tool like Vault, Nomad, Docker Secrets, Kubernetes Secrets, etc.  
    
 
-See also the security notes in the README of the individual services, particularly: passportjs-auth; rabbitmq-broker; redis-main.     
+See also the **security notes in individual services' README files**, particularly: passportjs-auth; rabbitmq-broker; redis-main.     
  
