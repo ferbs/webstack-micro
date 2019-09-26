@@ -117,9 +117,9 @@ If you think your Dockerfile or setup is something others might also like, consi
   * note: needed because navigating to your site using "http://localhost" or "http://127.0.0.1" confounds open id login, session cookies, and ssl on localhost 
 
 * Give it a try 
-  * Create a local dev-mode account for login: `bin/dev.sh run passportjs-auth bin/create-dev-user.js dev@email.loc secret! Some Name`                                         
   * Start the servers: `bin/dev.sh up` 
   * Visit `http://webstack.loc`
+  * Create a local dev-mode account for login: `bin/dev.sh run passportjs-auth bin/create-dev-user.js dev@email.loc secret! Some Name`                                         
   
 * Take a look at the tips and instructions in each service's README file.  
  
@@ -132,9 +132,9 @@ The `bin/dev.sh` script is a very short shell script--it is just a passthrough t
 
 * start your project: 
     ```
-    bin/dev.sh up
-    
+    bin/dev.sh up    
     ```
+  
   note: if a Dockerfile changed, append a `--build` switch (or run `bin/dev.sh build`)  
 
 * stop all running containers: 
