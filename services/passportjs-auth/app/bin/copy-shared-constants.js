@@ -2,8 +2,12 @@
 const fs = require('fs-extra');
 const path = require('path');
 
-// copy-pasted from frontend-web, meh.. see notes there.
-const rootImportDir = path.resolve(__dirname, '../src');
+// mostly copy-pasted from frontend-web (meh) but now with bonus meh TypeScript hacks
 
+const actualDataDir = '/usr/local/shared-constants/';
+const projectRoot = path.resolve(__dirname, '..');
+const sharedConstantDirName = 'shared-constants.generated';
 
-fs.copySync('/usr/local/shared-constants/', path.join(rootImportDir, 'shared-constants.generated'), { overwrite: true });
+fs.mkdirpSync(path.join(projectRoot, 'dist', sharedConstantDirName));
+fs.copySync(actualDataDir, path.join(projectRoot, 'src', sharedConstantDirName), { overwrite: true });
+fs.copySync(actualDataDir, path.join(projectRoot, 'dist', sharedConstantDirName), { overwrite: true });

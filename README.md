@@ -104,7 +104,7 @@ If you think your Dockerfile or setup is something others might also like, consi
 
 * Run the initialization script: `bin/init-dev-system.sh`
   * the script builds the Docker containers, installs dev-mode dependencies (eg, yarn install), and ensures expected data directories exist   
-  * the first run is slow...... (took ~ 6 minutes on an old MacBook Pro) 
+  * the first run is slow...... (took ~ 8 minutes on an old MacBook Pro) 
 
 * Set up your localhost base domain
   * It's best to add a couple base domains to `/etc/hosts`:
