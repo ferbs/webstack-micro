@@ -26,7 +26,7 @@ bin/dev.sh build
 
 echo "Installing dev-mode npm packages for passportjs-auth"
 bin/dev.sh run --no-deps passportjs-auth yarn install
-bin/dev.sh run --no-deps passportjs-auth yarn build-ts
+bin/dev.sh run --no-deps passportjs-auth yarn build:ts
 echo "Installing dev-mode npm packages for websocket-push"
 bin/dev.sh run --no-deps websocket-push yarn install
 echo "Installing dev-mode npm packages for frontend-web"
