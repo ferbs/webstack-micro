@@ -10,7 +10,7 @@ import useStyles from './PresentSlidecast.style';
 export default function PresentSlidecast() {
   const [ presoState, setPresoState ] = React.useState({ isLoading: true, isWorking: false });
   const assignPresoState = asStateAssigment(setPresoState);
-  const { slidecastId, slides, title, nowShowing, isLoading, expiresAt, isWorking, xhrError } = presoState;
+  const { slidecastId, slides, title, nowShowing, isLoading, expiresAt, isWorking, xhrError, errorCode } = presoState;
 
   React.useEffect(() => {
     isLoading && fetchPresentationData()
@@ -27,7 +27,9 @@ export default function PresentSlidecast() {
       <p>Checking for existing SlideCast...</p>
     </div>
   } else if (xhrError) {
-    content = <h3>Loading error: { xhrError.userMessage || 'Failed to reach server' }</h3>
+    content = <h3>Loading error: {xhrError.userMessage || 'Failed to reach server'}</h3>
+  } else if (errorCode) {
+    content = <h3>Error Code: {errorCode}</h3>
   } else {
     const changeActiveSlide = (target) => {
       if (!Array.isArray(slides) || typeof nowShowing !== 'number') {
@@ -45,16 +47,20 @@ export default function PresentSlidecast() {
 
     const savePreso = ({ title, slides }) => {
       assignPresoState({ isWorking: true });
+      const doneAttribs = { isWorking: false, isLoading: false, errorCode: null, xhrError: null }; // could use better helper methods..
       return savePresentation({ title, slides })
         .then((data) => {
-          const { slidecastId, expiresAt } = data;
-          assignPresoState({
-            title, slides,
-            slidecastId, expiresAt,
-            nowShowing: -1,
-            isWorking: false,
-            errors: null,
-          });
+          const { slidecastId, expiresAt, errorCode } = data;
+          if (errorCode || !slidecastId) {
+            assignPresoState({ ...doneAttribs, errorCode: errorCode || 'UnknownError' })
+          } else {
+            assignPresoState({
+              ...doneAttribs,
+              title, slides,
+              slidecastId, expiresAt,
+              nowShowing: -1,
+            });
+          }
         })
         .catch(_xhrErrorHandler({ assignPresoState }));
     };

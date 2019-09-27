@@ -74,17 +74,19 @@ class SlidecastController < Sinatra::Base
       posted_json = request.body.read
       if posted_json && posted_json.length > demo_slidecast_max_size
         res = { errorCode: 'MaxSizeExceeded' }
+        status 400
       else
         data = JSON.parse posted_json rescue halt(400, 'Expecting valid JSON')
         if !data || !data['slides']
           res = { errorCode: 'InvalidSlideContent' }
+          status 400
         else
           broadcast_slide(slidecast_id, nil, -1)
           res = upsert_header_info(slidecast_id, data['title'])
-          res['slidecastId'] = slidecast_id
           save_slides(slidecast_id, data['slides'])
         end
       end
+      res['slidecastId'] = slidecast_id
       json res
     end
 
@@ -119,7 +121,7 @@ class SlidecastController < Sinatra::Base
   end
 
   def demo_slidecast_max_size
-    10000
+    90000
   end
 
   def broadcast(slidecast_id, payload)

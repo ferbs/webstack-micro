@@ -20,7 +20,8 @@ export async function fetchPresentationData() {
 
 export async function savePresentation({ title, slides }) {
   return sendJson(`${UserMountPoint}/solo`, {
-    payload: { slides, title }
+    payload: { slides, title },
+    method: 'POST',
   });
 }
 
