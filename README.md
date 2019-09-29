@@ -24,7 +24,7 @@ I couldn't find a starter or demo offering anything near these goals so I'm cobb
 
 Webstack-micro uses [Docker Compose](https://docs.docker.com/compose/) to assemble a handful of containerized services. Your application 
  runs as 1-3 of these services, depending on how you want to structure your app. Your code interacts with the provided services, ones 
- that are fairly common an popular to web apps, ideally requiring little configuration or modification. The services:      
+ that are fairly common and popular to web apps, ideally requiring little configuration or modification. The services:      
  
 * **services/traefik-gateway** is the entry point for all HTTP requests. It is a [Traefik](https://traefik.io) server (aka 
  edge router / load balancer / API gateway.) You'll modify its configuration when you want to change which routes are protected (those  
@@ -85,7 +85,7 @@ If you think your Dockerfile or setup is something others might also like, consi
 
 ## Development Mode
 
-### Install
+### Instructions
 
 * Download this repository
   * you can rename the top/root directory from webpack-micro to your project name
