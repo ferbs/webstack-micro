@@ -19,7 +19,10 @@ I couldn't find a starter or demo offering anything near these goals so I'm cobb
 
 ![demo homepage screenshot](./guides/_support_files/demo-homepage.jpg)
 
+
+See also: [HackerNoon article](https://hackernoon.com/docker-kubernetes-and-microservices-for-small-teams-noym30kb) covering its pros & cons. 
   
+
 ### What is it
 
 Webstack-micro uses [Docker Compose](https://docs.docker.com/compose/) to assemble a handful of containerized services. Your application 
