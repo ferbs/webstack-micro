@@ -120,6 +120,7 @@ If you think your Dockerfile or setup is something others might also like, consi
   * note: needed because navigating to your site using "http://localhost" or "http://127.0.0.1" confounds open id login, session cookies, and ssl on localhost 
 
 * Give it a try 
+  * Stop any containers still lingering from the installation: `bin/dev.sh stop`
   * Start the servers: `bin/dev.sh up` 
   * Visit `http://webstack.loc`
   * Create a local dev-mode account for login: `bin/dev.sh run passportjs-auth bin/create-dev-user.js dev@email.loc secret! Some Name`                                         

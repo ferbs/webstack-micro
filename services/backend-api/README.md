@@ -35,6 +35,8 @@ A few points are worth mentioning:
        
 * As already mentioned, the *background-worker* service uses the same source directory. See notes in services/background-worker/README.md.
 
+* very low test coverage, meant to be removed/disposed, but it contains a couple to help test installation a tiny bit: `rake test` in container 
+
 * When switching out the `app/` directory and Dockerfile, consider taking notes and contributing a guide to help the next person. 
  
  

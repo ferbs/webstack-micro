@@ -3,6 +3,7 @@ require "sinatra/namespace"
 require "sinatra/json"
 require "sinatra/reloader" if ENV["RUBY_ENV"] == 'development'
 require 'json'
+require 'logger'
 require 'support/token_generator'
 require 'support/request_env.rb'
 require 'support/redis_support.rb'
@@ -26,10 +27,15 @@ class AiSortController < Sinatra::Base
 
     # POST /api/v1/artificial_intelligence/background_sort with json { elements: ____ }
     post '/background_sort' do
-      halt 400, json(errorCode: 'InvalidCsrfToken') unless csrf_token_confirmed?
+      unless csrf_token_confirmed?
+        logger.info "InvalidCsrfToken for auth_user_id #{best_auth_user_id}"
+        logger.error "Frontend might not be sending csrf token on first login. (Refresh page and try again?) Haven't had a chance to look into it--that code isn't being used in a real project."
+        halt 400, json(errorCode: 'InvalidCsrfToken')
+      end
       json_payload = request.body.read
       halt 422, json(errorCode: 'MaxSizeExceeded') unless json_payload.length <= max_body_size
       payload = JSON.parse(json_payload) rescue {}
+
       job_id, elements = payload.values_at('jobId', 'elements')
       if !elements || !elements.is_a?(Array) || elements.length > max_elements
         res = { errorCode: 'InvalidElementsArray', message: "Expecting payload to include an 'elements' array with #{max_elements} or fewer items" }
