@@ -34,8 +34,8 @@ class AiSortWorker
           message: "Expecting an array of elements to sort"
         })
       else
-        puts "AiSortWorker completed job '#{job_id}' and is pushing result to user '#{auth_user_id}'"
         result = ai_sort(elements)
+        puts "AiSortWorker completed job '#{job_id}' and is pushing result to user '#{auth_user_id}'"
         save_result_for_user(auth_user_id, result) # saves state briefly
         dispatch_result_to_user_tabs(auth_user_id, {
           type: ClientCommand::UpdateList,

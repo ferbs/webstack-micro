@@ -25,11 +25,11 @@ x-multi-service-dev-backend: &multi-service-dev-backend
 
 services:
   traefik-gateway:
-    command: # Enables the web UI and tells Traefik to listen to docker
+    command:
       - "--configfile=/etc/traefik/traefik.toml"
       - "--api"
       - "--docker.domain=docker.localhost" # todo: remove from toml
-      - "--logLevel=INFO" # or INFO
+      - "--logLevel=INFO"
       - "--docker.watch=true"
     stop_grace_period: 2s
 
