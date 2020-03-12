@@ -31,9 +31,7 @@ export function AuthContextProvider({ children, ...props }) {
     const { csrfToken, ...authUser } = currentUserData;
     if (csrfToken) {
       setCsrfToken(csrfToken);
-    } else {
-      console.warn('tmp ---- missing csrfToken!');
-    }
+    } 
     const updates = {
       connectionError: false,
     };

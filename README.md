@@ -112,9 +112,10 @@ If you think your Dockerfile or setup is something others might also like, consi
 * Set up your localhost base domain
   * It's best to add a couple base domains to `/etc/hosts`:
       
-        sudo echo 127.0.0.1 webstack.loc >> /etc/hosts
-        sudo echo 127.0.0.1 ws.webstack.loc >> /etc/hosts
-    
+      
+        sudo bash -c 'echo 127.0.0.1  webstack.loc ws.webstack.loc >> /etc/hosts'
+        sudo bash -c 'echo ::1  webstack.loc ws.webstack.loc >> /etc/hosts'                
+        
   * You can replace "webstack.loc" here and in the .env shell variables, but the READMEs refer to it as "webstack.loc"         
   * If you do not have permission to /etc/hosts, you can use another domain that points back to localhost 127.0.0.1 like: *lvh.me*      
   * note: needed because navigating to your site using "http://localhost" or "http://127.0.0.1" confounds open id login, session cookies, and ssl on localhost 
