@@ -18,7 +18,7 @@ class BackendApiController < Sinatra::Base
   use SlidecastController
   use AiSortController
 
-  get '/api/status' do
+  get '/guest/api/status' do
     json( alive: true )
   end
 end

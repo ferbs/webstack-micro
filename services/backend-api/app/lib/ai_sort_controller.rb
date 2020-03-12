@@ -29,6 +29,9 @@ class AiSortController < Sinatra::Base
     post '/background_sort' do
       unless csrf_token_confirmed?
         logger.info "InvalidCsrfToken for auth_user_id #{best_auth_user_id}"
+        # note: hit this bug once, of a logged-in user not sending csrf token. Occurred after running some lib updates
+        #   but I couldn't reproduce it (and didn't inspect browser state much) and didn't try doing a fresh install.
+        #   Adding this error so there is some hint in the logs-
         logger.error "Frontend might not be sending csrf token on first login. (Refresh page and try again?) Haven't had a chance to look into it--that code isn't being used in a real project."
         halt 400, json(errorCode: 'InvalidCsrfToken')
       end
@@ -60,7 +63,7 @@ class AiSortController < Sinatra::Base
   end
 
   def submit_job_to_worker(payload)
-    puts "AiSortController submitting job '#{payload[:job_id]}' to background worker queue '#{worker_queue_name}'"
+    logger.info "AiSortController submitting job '#{payload[:job_id]}' to background worker queue '#{worker_queue_name}'"
     rabbitmq_pool.with do |rmq|
       rmq.default_exchange.publish(payload.to_json, routing_key: worker_queue_name)
     end
