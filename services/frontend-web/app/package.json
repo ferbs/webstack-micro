@@ -10,7 +10,7 @@
     "backoff": "^2.5.0",
     "clsx": "^1.0.4",
     "fs-extra": "^8.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-hook-form": "^3.22.2",
