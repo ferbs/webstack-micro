@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'puma', '~> 4.3.3'
-gem 'rack', '~> 2.0.8'
-gem 'sinatra', '~> 2.0.7'
-gem 'sinatra-contrib', '~> 2.0.7'
+gem 'rack', '~> 2.2.4'
+gem 'sinatra', '~> 3.0.4'
+gem 'sinatra-contrib', '~> 3.0.4'
 gem 'redis', '~> 4.1.2'
 gem 'bunny', '~> 2.14.2'
 gem 'connection_pool', '~> 2.2.2'
@@ -17,6 +17,6 @@ gem 'statsd-ruby', '~> 1.4.0'
 
 # todo: put into separate :test bundle group
 group :test do
-  gem 'rack-test', '~> 1.1.0'
+  gem 'rack-test', '~> 2.0.2'
   gem 'minitest'
 end
